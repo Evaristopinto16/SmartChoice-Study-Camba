@@ -62,12 +62,12 @@ const RaciocionioInteligenteAplicandoRAG = async (pergunta)=>{
 
     let selecidoFicheiro = await SelecionarRelevanteFicheiro(pergunta)
     selecidoFicheiro = JSON.parse(selecidoFicheiro)
-console.log(selecidoFicheiro)
+
     if(!selecidoFicheiro.filename) return
 
     const LerConteudoCurso = await fs.readFileSync(`./docs/${selecidoFicheiro.filename}`, "utf8")
 
-    console.log(LerConteudoCurso)
+     
 
     const response = await openai.chat.completions.create(
         {
@@ -75,23 +75,24 @@ console.log(selecidoFicheiro)
             messages: [
                 {
                     role: 'system',
-                    content: "Você é um assistente prestativo que responde perguntas com base na documentação fornecida."
+                    content: "Você é um assistente prestativo que ajudas o usuario escolher o curso ideial para o ensino superior e algumas informaçoes sobre a universidade irás encontrar na documentação fornecida."
                 }, {
                     role: "user",
                       content: `
-
-                        escreve Sobre o ${selecidoFicheiro.filename} seus Pontos-chaves, principais assuntos e saida no Mercado Angolano ou Principalmente na Provincia Do Cuando Cubango,
-                        com Base no documentos demostre a sua missão vissão e seu site: ${selecidoFicheiro.filename}:
+                         question: ${pergunta} com base a pergunta do usuario 
+                        acoselha Sobre o curso ${selecidoFicheiro.filename} destacando os  seus Pontos-chaves, principais assuntos a serem estudados  e saida no Mercado de trabalho em  Angolano ou Principalmente na Provincia Do Cuando Cubango,
+                        com Base no documentos demostre a sua missão visão e seu site: ${selecidoFicheiro.filename}:
                         ${LerConteudoCurso} 
-                        question: ${pergunta}
-                       Por favor, responda com base nesta documentação. Se a resposta não estiver na documentação, diga isso de forma educada.
+                       
+                       Por favor, informaçoes adicionais escreva com base nesta documentação.  
                         `
                 }
             ]
         }
     )
    
+    console.log(response.choices[0].message.content)
 
 }
 
-RaciocionioInteligenteAplicandoRAG("eu gosto muito de aprender sobre tecnologica e tenciono cursar p ensino superior na area relaciona a tecnoligias")
+RaciocionioInteligenteAplicandoRAG("eu gosto muito de aprender sobre turismo  e tenciono cursar o ensino superior na area ")
