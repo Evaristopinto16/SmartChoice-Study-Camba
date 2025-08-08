@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "express": "^5.1.0",
+    "openai": "^5.12.1",
+    "request-promise": "^4.2.6",
+    "socket.io": "^4.8.1"
+  },
+  "type": "module"
+}

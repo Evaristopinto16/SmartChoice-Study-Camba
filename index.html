@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat com Llama 3</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h1>Chat com Llama 3 (Local)</h1>
+  <input type="text" id="mensagemInput" placeholder="Pergunte algo..." />
+  <button onclick="enviarMensagem()">Enviar</button>
+  <div id="respostas"></div>
+
+  <script>
+    const socket = io();
+
+    function enviarMensagem() {
+      const input = document.getElementById("mensagemInput");
+      const mensagem = input.value;
+      socket.emit("mensagem", { texto: mensagem });
+      input.value = "";
+    }
+
+    socket.on("resposta", (data) => {
+      const div = document.getElementById("respostas");
+      div.innerHTML += `<p><strong>Llama 3:</strong> ${data.texto}</p>`;
+    });
+  </script>
+</body>
+</html>
