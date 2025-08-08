@@ -7,7 +7,7 @@ import path from 'path'
 const  model =  'gpt-3.5-turbo'
 const openai = new OpenAI(
     {
-        apiKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlNGQ2NjUyLWU1NGEtNDNiOC05OTFjLWNiNzY3ODEzZTc2YyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NDkzNjQ2OTEsImV4cCI6MjA2NDk0MDY5MX0.nchwZMd6-J9iRyFK6dnpuXqhrlQfzwFwVVOlL3i8JgI",
+        apiKey: "",
         baseURL: 'https://bothub.chat/api/v2/openai/v1'
     }
 )
