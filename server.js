@@ -23,8 +23,8 @@ bot.on('message', async (msg) => {
   } else if (text.toLowerCase() === 'sms') {
     bot.sendMessage(chatId, 'Esta é uma resposta simulada para SMS.');
   } else {
-    let x = await RaciocionioInteligenteAplicandoRAG(text)
-    bot.sendMessage(chatId, 'Recebi sua mensagem: ' + x);
+    let mensagenRecebida = await RaciocionioInteligenteAplicandoRAG(text)
+    bot.sendMessage(chatId,  mensagenRecebida);
   }
 });
 
