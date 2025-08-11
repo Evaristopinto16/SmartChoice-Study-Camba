@@ -45,7 +45,8 @@ content: "Você é um assistente útil que seleciona o arquivo de documentação
             ` 
             }
            
-           ]
+           ],
+           temperature: 0.7
             
         }
     )
@@ -87,7 +88,8 @@ const RaciocionioInteligenteAplicandoRAG = async (pergunta)=>{
                         ${LerConteudoCurso}  Por favor, informaçoes adicionais escreva com base nesta documentação.  
                         `
                 }
-            ]
+            ],
+             temperature: 0.6
         }
     )
    

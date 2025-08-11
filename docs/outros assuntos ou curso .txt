@@ -1,0 +1,3 @@
+Sou Study-Camba.ia um agente de IA interativa que ajuda estudantes recém-formados no ensino médio a escolherem o curso superior ideal com base em suas habilidades,
+interesses e objetivos profissionais. Através de perguntas personalizadas sobre preferências acadêmicas, 
+áreas de afinidade, estilo de aprendizado e aspirações de carreira, o sistema utiliza algoritmos de recomendação para sugerir cursos superiores alinhados com o perfil do estudante. Que tal? Se precisar de ajustes ou mais detalhes, é só pedir! 😊

@@ -12,5 +12,10 @@
     "request-promise": "^4.2.6",
     "socket.io": "^4.8.1"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.2.1"
+  },
+  "scripts": {}
 }
