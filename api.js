@@ -2,27 +2,23 @@ import fs from 'fs'
 import OpenAI from 'openai'
 import path from 'path'
 
-/*  */
-
+ 
 const  model =  'gpt-3.5-turbo'
 const openai = new OpenAI(
     {
-        apiKey: "",
+        apiKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlNGQ2NjUyLWU1NGEtNDNiOC05OTFjLWNiNzY3ODEzZTc2YyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NTQ4NzA0MDQsImV4cCI6MjA3MDQ0NjQwNH0.eB7GLDtjiaLpQrYn1Da5In92cZSI8k04vU6H6SPvnuc",
         baseURL: 'https://bothub.chat/api/v2/openai/v1'
     }
 )
+   
 /*
 const openai = new OpenAI({
   baseURL: 'http://localhost:11434/v1',
   apiKey: 'ollama', // required but unused
 })
 
-const completion = await openai.chat.completions.create({
-  model: 'gemma3:1b',
-  messages: [{ role: 'user', content: 'EM QUE ANO ESTAMOS' }],
-})*/
-
-//console.log(completion.choices[0].message.content)
+ )*/
+ 
 
 const SelecionarRelevanteFicheiro =  async (pergunta)=>{
      
@@ -34,8 +30,8 @@ const SelecionarRelevanteFicheiro =  async (pergunta)=>{
     const response = await openai.chat.completions.create(
         {
             
-           //model: 'gemma3:1b', 
-          model,
+            model, 
+           
            messages: [
             {
                 role: "system",
@@ -45,7 +41,7 @@ content: "Você é um assistente útil que seleciona o arquivo de documentação
                 role:  `user`,
                content:  `  documentos disponiveis : ${JSON.stringify(ListasCursosUniversidades)} 
                             pergunta do usuario: ${pergunta}
-                            Selecione o arquivo mais relevante e explique o porquê. Responda em formato JSON.   
+                            Selecione o arquivo mais relevante e explique o porquê (se a pergunta não se encaixa selecione file: outros assuntos ou curso .txt )  Responda em formato JSON.   
             ` 
             }
            
@@ -63,7 +59,12 @@ const RaciocionioInteligenteAplicandoRAG = async (pergunta)=>{
     let selecidoFicheiro = await SelecionarRelevanteFicheiro(pergunta)
     selecidoFicheiro = JSON.parse(selecidoFicheiro)
 
+    console.log(selecidoFicheiro)
+
     if(!selecidoFicheiro.filename) return
+    if(selecidoFicheiro.filename.includes('outros assuntos ou curso .txt')){
+        return "Sou Study-Camba.ia um agente de IA interativa que ajuda estudantes recém-formados no ensino médio a escolherem o curso superior ideal com base em suas habilidades, interesses e objetivos profissionais. Através de perguntas personalizadas sobre preferências acadêmicas, áreas de afinidade, estilo de aprendizado e aspirações de carreira, o sistema utiliza algoritmos de recomendação para sugerir cursos superiores alinhados com o perfil do estudante. Que tal? Se precisar de ajustes ou mais detalhes, é só pedir! 😊"
+    }
 
     const LerConteudoCurso = await fs.readFileSync(`./docs/${selecidoFicheiro.filename}`, "utf8")
 
@@ -79,20 +80,19 @@ const RaciocionioInteligenteAplicandoRAG = async (pergunta)=>{
                 }, {
                     role: "user",
                       content: `
+                      O primeiro paragrafo escreva algo semilar com: Com base a sua pergunta o curso que mais se encaixa em  ${selecidoFicheiro.filename}
                          question: ${pergunta} com base a pergunta do usuario 
-                        acoselha Sobre o curso ${selecidoFicheiro.filename} destacando os  seus Pontos-chaves, principais assuntos a serem estudados  e saida no Mercado de trabalho em  Angolano ou Principalmente na Provincia Do Cuando Cubango,
+                        aconselha Sobre o curso ${selecidoFicheiro.filename} destacando os  seus Pontos-chaves, principais assuntos a serem estudados  e saida no Mercado de trabalho em  Angolano ou Principalmente na Provincia Do Cuando Cubango,
                         com Base no documentos demostre a sua missão visão e seu site: ${selecidoFicheiro.filename}:
-                        ${LerConteudoCurso} 
-                       
-                       Por favor, informaçoes adicionais escreva com base nesta documentação.  
+                        ${LerConteudoCurso}  Por favor, informaçoes adicionais escreva com base nesta documentação.  
                         `
                 }
             ]
         }
     )
    
-    console.log(response.choices[0].message.content)
+    return response.choices[0].message.content
 
 }
 
-RaciocionioInteligenteAplicandoRAG("eu gosto muito de aprender sobre turismo  e tenciono cursar o ensino superior na area ")
+export default RaciocionioInteligenteAplicandoRAG

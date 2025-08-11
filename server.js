@@ -1,53 +1,31 @@
-const express = require("express");
-const { LLama} = require("@llama-node/llama-cpp");
-const {Llm} = require("@llama-node/core");
-const socketIo = require("socket.io");
-const http = require("http");
+import TelegramBot from 'node-telegram-bot-api' 
+import RaciocionioInteligenteAplicandoRAG from "./api.js" 
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
- 
-// Configuração do Llama
- 
-// Caminho para o modelo GGUF (ex: "llama-3-8b-instruct.Q4_K_M.gguf")
-const modelPath = "./llama-3-8b-instruct.Q4_K_M.gguf";
 
-// Carrega o modelo (assíncrono)
-Llm.load({ modelPath }).then(() => {
-  console.log("Modelo carregado!");
-}).catch(err => {
-  console.error("Erro ao carregar modelo:", err);
+// Substitua pelo token do seu bot
+const token = '8041186463:AAFrDDqp4Lu9BjAUqfuXv7CO3mWftJrYORM';
+
+// Crie um bot que usa 'polling' para receber atualizações RaciocionioInteligenteAplicandoRAG("eu gosto muito de aprender sobre turismo  e tenciono cursar o ensino superior na area ")
+const bot = new TelegramBot(token, {polling: true});
+
+// Responder a mensagens de texto
+bot.on('message', async (msg) => {
+    
+  const chatId = msg.chat.id;
+  const text = msg.text;
+  console.log(chatId, text)
+
+  console.log(`Mensagem recebida: ${text}`);
+
+  // Responder de volta
+  if (text.toLowerCase() === 'oi' || text.toLowerCase() === 'olá') {
+    bot.sendMessage(chatId, 'Olá! Como posso ajudar?');
+  } else if (text.toLowerCase() === 'sms') {
+    bot.sendMessage(chatId, 'Esta é uma resposta simulada para SMS.');
+  } else {
+    let x = await RaciocionioInteligenteAplicandoRAG(text)
+    bot.sendMessage(chatId, 'Recebi sua mensagem: ' + x);
+  }
 });
 
-// Rota do frontend
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-// Socket.IO para tempo real
-io.on("connection", (socket) => {
-  console.log("Cliente conectado!");
-
-  socket.on("mensagem", async (data) => {
-    console.log("Pergunta:", data.texto);
-
-    try {
-      // Gera a resposta (formato INST para Llama 3 Instruct)
-      const resposta = await llama.createCompletion({
-        prompt: `<|im_start|>user\n${data.texto}<|im_end|>\n<|im_start|>assistant\n`,
-        temperature: 0.7,
-        maxTokens: 500,
-      });
-
-      socket.emit("resposta", { texto: resposta.text });
-    } catch (err) {
-      console.error("Erro na IA:", err);
-      socket.emit("resposta", { texto: "Erro ao gerar resposta." });
-    }
-  });
-});
-
-server.listen(3000, () => {
-  console.log("Servidor rodando em http://localhost:3000");
-});
+console.log('Bot está rodando...');
