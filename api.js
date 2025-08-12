@@ -1,20 +1,17 @@
 import fs from 'fs'
 import OpenAI from 'openai'
 import path from 'path'
+import { config } from 'dotenv'
+config();
 
- 
-const  model =  'gpt-oss:latest'
-/* const openai = new OpenAI(
-    {
-        apiKey: " ",
-        baseURL: 'https://api.deepseek.com/v1'
-    }
-)
-  
-*/
+const apiKey = process.env.OPENAIapiKey
+const  model =  process.env.model
+const  baseURL = process.env.baseURL
+console.log(apiKey)
+
 const openai = new OpenAI({
-  baseURL: 'http://localhost:11434/v1',  
-  apiKey: 'ollama', // required but unused
+  baseURL,  
+  apiKey
 })
 
  

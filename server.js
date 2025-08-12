@@ -4,7 +4,7 @@ import RaciocionioInteligenteAplicandoRAG from "./api.js"
 
 // Substitua pelo token do seu bot
 
-let token= ""
+let token= "8041186463:AAFrDDqp4Lu9BjAUqfuXv7CO3mWftJrYORM"
 // Crie um bot que usa 'polling' para receber atualizações RaciocionioInteligenteAplicandoRAG("eu gosto muito de aprender sobre turismo  e tenciono cursar o ensino superior na area ")
 const bot = new TelegramBot(token, {polling: true});
 
