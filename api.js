@@ -20,7 +20,7 @@ const openai = new OpenAI({
 const SelecionarRelevanteFicheiro =  async (pergunta)=>{
      
     const caminhoFicheiroDoc = await  fs.readdirSync('./docs')
-    console.log(caminhoFicheiroDoc)
+     
     const ListasCursosUniversidades = await caminhoFicheiroDoc.map(curso => ({filname: curso}))
     console.log(ListasCursosUniversidades);
 
